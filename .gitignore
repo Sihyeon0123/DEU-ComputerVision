@@ -1,2 +1,5 @@
 번호판인식/Train/
-.ipynb_checkpoint
+*.ipynb_checkpoint
+번호판인식/testimg/
+*.mp4
+*.pth
