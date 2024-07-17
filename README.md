@@ -35,6 +35,10 @@
 
 #### 예제 코드
 ```python
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(1, input_dim = 2, activation='sigmoid'))
+sgd = tf.keras.optimizers.SGD(learning_rate=0.05)
+model.compile(loss='mean_squared_error',optimizer=sgd)
 ```
 
 ---
@@ -56,6 +60,11 @@
 
 #### 예제 코드
 ```python
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(2, input_dim = 2, activation='sigmoid'))
+model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+sgd = tf.keras.optimizers.SGD(learning_rate=0.05)
+model.compile(loss='mean_squared_error',optimizer=sgd)
 ```
 
 ### MNIST 데이터셋을 이용한 손글씨 인식
@@ -72,6 +81,19 @@
 
 #### 예제 코드
 ```python
+# 은닉 계층: RELU, 출력함수: sotfmax 계층 생성
+# 128개의 노드를 가지는 은닉 RELU 1계층과 softmax 활성함수를 가지는 10개의 노드 출력층
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(input_shape=(28, 28)), # Flatten: 2차원 -> 1차원으로 변형
+  tf.keras.layers.Dense(128, activation='relu'),# 계층의 개수 변경, relu대신 다른 함수 사용
+  tf.keras.layers.Dense(10, activation='softmax')
+])
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+# 5번 학습 수행
+model.fit(x_train, y_train, epochs=5, verbose=1)
 ```
 
 ---
@@ -91,6 +113,22 @@
 
 #### 예제 코드
 ```python
+# 모델 정의
+model = tf.keras.models.Sequential([
+   tf.keras.layers.Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), padding='same',
+                          activation='relu', input_shape=(28, 28,1)),
+   tf.keras.layers.MaxPool2D(pool_size=(2,2), strides=(2,2), padding='same'),
+   tf.keras.layers.Conv2D(filters=16, kernel_size=(2,2), strides=(1,1), padding='same', 
+                          activation='relu'),
+   tf.keras.layers.MaxPool2D(pool_size=(2,2), strides=(2,2), padding='same'),
+   tf.keras.layers.Flatten(),
+   tf.keras.layers.Dense(10, activation='softmax')
+])
+
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+model.fit(x_train, y_train, epochs=5, verbose=1)
 ```
 
 ### 패션 인식
@@ -106,6 +144,24 @@
 - 이미지 분류: 주어진 이미지를 10개의 클래스 중 하나로 분류.
 #### 예제 코드
 ```python
+# 모델 정의
+# 필터 32, 필터크기 3x3, 
+model = tf.keras.models.Sequential([
+   tf.keras.layers.Conv2D(filters=32, kernel_size=(3,3), strides=(1,1), padding='same',
+                          activation='relu', input_shape=(28, 28,1)),
+   tf.keras.layers.MaxPool2D(pool_size=(2,2), strides=(2,2), padding='same'),
+   tf.keras.layers.Conv2D(filters=16, kernel_size=(2,2), strides=(1,1), padding='same', 
+                          activation='relu'),
+   tf.keras.layers.MaxPool2D(pool_size=(2,2), strides=(2,2), padding='same'),
+   tf.keras.layers.Flatten(),
+   tf.keras.layers.Dense(10, activation='softmax')
+])
+# 모델 컴파일
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+# 모델 학습
+model.fit(x_train, y_train, epochs=5, verbose=1)
 ```
 
 ---
@@ -123,10 +179,6 @@
 - Detectron2: Facebook AI Research에서 개발한 객체 탐지 라이브러리.
 - 객체 탐지: 이미지에서 객체의 위치와 종류를 인식.
 
-#### 예제 코드
-```python
-```
-
 ### 사람 스켈레톤 검출 및 프레임간 각도 변화를 통한 쓰러짐 검출
 #### 주제
 - Detectron2를 이용하여 사람의 스켈레톤 검출 및 프레임 간 각도 변화를 통한 쓰러짐 검출.
@@ -138,7 +190,3 @@
 #### 중요 개념
 - Keypoint R-CNN: 사람의 관절 위치를 검출하는 모델.
 - 쓰러짐 검출: 관절의 각도 변화를 통해 쓰러짐을 인식.
-
-#### 예제 코드
-```python
-```
